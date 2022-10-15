@@ -1,8 +1,9 @@
 package me.lenglet.entity;
 
-import jakarta.persistence.PostLoad;
-import jakarta.persistence.PrePersist;
 import me.lenglet.EncryptionService;
+
+import javax.persistence.PostLoad;
+import javax.persistence.PrePersist;
 
 public class SensitiveDataListener {
 
@@ -16,7 +17,7 @@ public class SensitiveDataListener {
 
     @PostLoad
     @PrePersist
-    public void setEncryptionService(SensitiveString sensitiveData) {
-        sensitiveData.setEncryptionService(this.encryptionService);
+    public void setEncryptionService(SensitiveContainer sensitiveContainer) {
+        sensitiveContainer.setEncryptionService(this.encryptionService);
     }
 }

@@ -1,8 +1,8 @@
 package me.lenglet.entity;
 
-import jakarta.persistence.*;
-import me.lenglet.EncryptionService;
 import org.hibernate.annotations.Parent;
+
+import javax.persistence.*;
 
 @Embeddable
 @EntityListeners(SensitiveDataListener.class)
@@ -13,8 +13,6 @@ public class SensitiveString implements SensitiveData {
 
     @Parent
     private SensitiveContainer parent;
-    @Transient
-    private EncryptionService encryptionService;
 
     SensitiveString() {
     }
@@ -25,10 +23,6 @@ public class SensitiveString implements SensitiveData {
     ) {
         this.value = value;
         this.parent = parent;
-    }
-
-    public void setEncryptionService(EncryptionService encryptionService) {
-        this.encryptionService = encryptionService;
     }
 
     SensitiveContainer getParent() {
@@ -42,7 +36,7 @@ public class SensitiveString implements SensitiveData {
     @PostLoad
     void postLoad() {
         if (this.value.startsWith(ENCRYPTED_TAG)) {
-            this.value = this.encryptionService.decrypt(this.value.substring(ENCRYPTED_TAG.length()));
+            this.value = this.getParent().getEncryptionService().decrypt(this.value.substring(ENCRYPTED_TAG.length()));
         }
     }
 
@@ -50,7 +44,7 @@ public class SensitiveString implements SensitiveData {
     @PreUpdate
     void prePersistAndUpdate() {
         if (this.parent.isMnpi()) {
-            this.value = ENCRYPTED_TAG + this.encryptionService.encrypt(this.value);
+            this.value = ENCRYPTED_TAG + this.getParent().getEncryptionService().encrypt(this.value);
         }
     }
 }

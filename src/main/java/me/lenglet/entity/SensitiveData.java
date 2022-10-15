@@ -1,4 +1,6 @@
 package me.lenglet.entity;
 
-public interface SensitiveData {
+public interface SensitiveData<T> {
+
+    T value();
 }

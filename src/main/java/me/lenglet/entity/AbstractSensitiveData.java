@@ -7,7 +7,7 @@ import javax.persistence.*;
 @MappedSuperclass
 @Embeddable
 @EntityListeners(SensitiveDataListener.class)
-public abstract class AbstractSensitiveData implements SensitiveData {
+public abstract class AbstractSensitiveData<T> implements SensitiveData<T> {
     public static final String ENCRYPTED_TAG = "encrypted::";
     protected String value;
     @Parent
@@ -16,7 +16,7 @@ public abstract class AbstractSensitiveData implements SensitiveData {
     AbstractSensitiveData() {
     }
 
-    public AbstractSensitiveData(
+    protected AbstractSensitiveData(
             String value,
             SensitiveContainer parent
     ) {

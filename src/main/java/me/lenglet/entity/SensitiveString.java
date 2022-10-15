@@ -1,6 +1,6 @@
 package me.lenglet.entity;
 
-public class SensitiveString extends AbstractSensitiveData {
+public class SensitiveString extends AbstractSensitiveData<String> {
 
     SensitiveString() {
         super();
@@ -11,5 +11,10 @@ public class SensitiveString extends AbstractSensitiveData {
             SensitiveContainer parent
     ) {
         super(value, parent);
+    }
+
+    @Override
+    public String value() {
+        return this.value;
     }
 }

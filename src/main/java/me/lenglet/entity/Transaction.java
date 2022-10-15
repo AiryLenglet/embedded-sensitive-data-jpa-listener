@@ -3,6 +3,7 @@ package me.lenglet.entity;
 import me.lenglet.EncryptionService;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @EntityListeners(SensitiveDataListener.class)
@@ -16,11 +17,19 @@ public class Transaction implements SensitiveContainer {
     @AttributeOverride(name = "value", column = @Column(name = "client_name"))
     private SensitiveString clientName;
 
+    @Embedded
+    @AttributeOverride(name = "value", column = @Column(name = "transaction_date"))
+    private SensitiveDate transactionDate;
+
     @Transient
     private EncryptionService encryptionService;
 
     public void setClientName(String clientName) {
         this.clientName = new SensitiveString(clientName, this);
+    }
+
+    public void setTransactionDate(LocalDate transactionDate) {
+        this.transactionDate = new SensitiveDate(transactionDate, this);
     }
 
     public Long getId() {

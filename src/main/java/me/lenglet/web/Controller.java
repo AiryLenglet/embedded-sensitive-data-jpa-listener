@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 public class Controller {
 
@@ -19,6 +21,7 @@ public class Controller {
     public Long createTransaction() {
         final var transaction = new Transaction();
         transaction.setClientName("Jim Morrison");
+        transaction.setTransactionDate(LocalDate.of(2022, 1, 1));
         this.transactionRepository.save(transaction);
         return transaction.getId();
     }

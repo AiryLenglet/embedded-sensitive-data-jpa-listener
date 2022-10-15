@@ -28,7 +28,20 @@ public class Controller {
 
     @Transactional(readOnly = true)
     @GetMapping(path = "/{id}")
-    public void createTransaction(@PathVariable long id) {
-        this.transactionRepository.findById(id).get();
+    public TransactionDto createTransaction(@PathVariable long id) {
+        return this.transactionRepository.findById(id)
+                .map(transaction -> new TransactionDto(
+                        transaction.getId(),
+                        transaction.getClientName().value(),
+                        transaction.getTransactionDate().value()
+                ))
+                .orElse(null);
+    }
+
+    public record TransactionDto(
+            Long id,
+            String transactionName,
+            LocalDate transactionDate
+    ) {
     }
 }

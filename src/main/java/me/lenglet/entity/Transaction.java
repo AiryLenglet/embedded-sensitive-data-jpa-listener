@@ -36,6 +36,14 @@ public class Transaction implements SensitiveContainer {
         return id;
     }
 
+    public SensitiveString getClientName() {
+        return clientName;
+    }
+
+    public SensitiveDate getTransactionDate() {
+        return transactionDate;
+    }
+
     @Override
     public boolean isMnpi() {
         return true;

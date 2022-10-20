@@ -50,6 +50,11 @@ public class Transaction implements SensitiveContainer {
     }
 
     @Override
+    public boolean mnpiFlagHasChanged() {
+        return false;
+    }
+
+    @Override
     public EncryptionService getEncryptionService() {
         return encryptionService;
     }

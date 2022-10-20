@@ -24,7 +24,8 @@ public abstract class AbstractSensitiveData<T> implements SensitiveData<T> {
         this.parent = parent;
     }
 
-    SensitiveContainer getParent() {
+    @Override
+    public SensitiveContainer getParent() {
         return parent;
     }
 

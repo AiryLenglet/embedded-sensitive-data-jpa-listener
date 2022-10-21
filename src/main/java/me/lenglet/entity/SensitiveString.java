@@ -15,6 +15,6 @@ public class SensitiveString extends AbstractSensitiveData<String> {
 
     @Override
     public String value() {
-        return this.value;
+        return this.getStringValue();
     }
 }

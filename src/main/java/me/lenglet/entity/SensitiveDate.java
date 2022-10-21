@@ -17,6 +17,6 @@ public class SensitiveDate extends AbstractSensitiveData<LocalDate> {
 
     @Override
     public LocalDate value() {
-        return LocalDate.parse(this.value);
+        return LocalDate.parse(this.getStringValue());
     }
 }

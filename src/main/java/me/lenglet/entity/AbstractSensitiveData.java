@@ -10,6 +10,10 @@ import javax.persistence.*;
 public abstract class AbstractSensitiveData<T> implements SensitiveData<T> {
     public static final String ENCRYPTED_TAG = "encrypted::";
     protected String value;
+
+    @Transient
+    protected String v;
+
     @Parent
     protected SensitiveContainer parent;
 
@@ -33,17 +37,17 @@ public abstract class AbstractSensitiveData<T> implements SensitiveData<T> {
         this.parent = parent;
     }
 
-    @PostLoad
-    void postLoad() {
+    public synchronized String getStringValue() {
         if (this.value.startsWith(ENCRYPTED_TAG)) {
-            this.value = this.getParent().getEncryptionService().decrypt(this.value.substring(ENCRYPTED_TAG.length()));
+            return this.getParent().getEncryptionService().decrypt(this.value.substring(ENCRYPTED_TAG.length()));
         }
+        return this.value;
     }
 
     @PrePersist
     @PreUpdate
     void prePersistAndUpdate() {
-        if (this.parent.isMnpi()) {
+        if (this.parent.isMnpi() && !this.value.startsWith(ENCRYPTED_TAG)) {
             this.value = ENCRYPTED_TAG + this.getParent().getEncryptionService().encrypt(this.value);
         }
     }
